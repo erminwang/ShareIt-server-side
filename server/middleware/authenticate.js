@@ -7,7 +7,7 @@ var authenticate = (req, res, next) => {
         if(!user) {
             return Promise.reject();   // if this code executes, the catch block will directly catch the error
         }
-        
+
         req.user = user;
         req.token = token;
         next();
