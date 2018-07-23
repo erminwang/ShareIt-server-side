@@ -5,20 +5,9 @@ const {ObjectID} = require('mongodb');
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 const {User} = require('./../models/user');
+const {todos, populateTodos} = require('./seed/seed');
 
-const todos = [{
-    _id: new ObjectID(),
-    text: 'First test todo'
-}, {
-    _id: new ObjectID(),
-    text: 'Second test todo'
-}];
-
-beforeEach((done) => {
-    Todo.remove({}).then(() => {
-        Todo.insertMany(todos);
-    }).then(() => done());
-});
+beforeEach(populateTodos);
 
 describe('POST /todos', () => {
     it('should create a new todo', (done) => {
@@ -26,6 +15,7 @@ describe('POST /todos', () => {
 
         request(app)
             .post('/todos')
+            .set('x-auth', user[0].tokens[0].token)
             .send({text})
             .expect(201)
             .expect((res) => {
@@ -48,6 +38,7 @@ describe('POST /todos', () => {
     it('should not create todo with invalid body data', (done) => {
         request(app)
             .post('/todos')
+            .set('x-auth', user[0].tokens[0].token)
             .send({})
             .expect(400)
             .end((err, res) => {
@@ -67,9 +58,10 @@ describe('POST /todos', () => {
         it('should get all todos', (done) => {
           request(app)
               .get('/todos')
+              .set('x-auth', user[0].tokens[0].token)
               .expect(200)
               .expect((res) => {
-                  expect(res.body.todos.length).toBe(2);
+                  expect(res.body.todos.length).toBe(1);
               })
               .end(done);
         });

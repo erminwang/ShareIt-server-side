@@ -1,3 +1,4 @@
-**/node_modules
-**/.expo
+server/config/config.json
+**/node_modules/
+**/.expo/
 **/.idea/
