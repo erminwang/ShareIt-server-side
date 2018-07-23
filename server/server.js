@@ -15,6 +15,8 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
+console.log(process.env.JWT_SECRET);
+
 app.post('/todos', authenticate, (req, res) => {
     var todo = new Todo({
         text: req.body.text,
