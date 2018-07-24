@@ -1,5 +1,9 @@
 require('./config/config');
 
+const path = require('path');
+const publicPath = path.join(__dirname, '../public');
+const viewPath = path.join(__dirname, '../views');
+
 // const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -13,6 +17,10 @@ const bodyParser = require('body-parser');
 var app = express();
 const port = process.env.PORT;
 
+app.set('views', viewPath);
+app.set('view engine', 'ejs');
+
+app.use(express.static(publicPath));
 app.use(bodyParser.json());
 app.use(require('./controllers'));
 

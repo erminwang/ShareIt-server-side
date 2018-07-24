@@ -1,0 +1,24 @@
+.side {
+    top: 10%;
+    position: relative;
+}
+
+.material-icons.md-18 {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 65%;
+}
+
+.material-icons.md-19 {
+    margin: auto;
+}
+
+.button-green {
+    background-color: green;
+}
+
+.button-green:hover {
+    background-color: #006600;
+    color: white;
+}

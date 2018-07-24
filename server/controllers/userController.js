@@ -8,14 +8,22 @@ var {authenticate} = require('./../middleware/authenticate');
 // USER_OPERATIONS
 router.post('/signup', (req, res) => {
     var body = _.pick(req.body, ['email', 'password']);
+    var email = body.email;
+
     var user = new User(body);
 
     user.save().then(() => {
         return user.generateAuthToken();
     }).then((token) => {
-        res.header('x-auth', token).send(user);
+        res.header('x-auth', token).send({
+            "ok": 1,
+            user
+        });
     }).catch((e) => {
-        res.status(400).send(e);
+        res.status(400).send({
+            "ok": 0,
+            e
+        });
     })
 
 });
