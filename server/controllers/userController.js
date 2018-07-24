@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const _ = require('lodash');
+const multer = require('multer');
+const upload = multer({des: 'uploads/'});
 
 var {mongoose} = require('./../db/mongoose');
 var {User} = require('./../models/user');
@@ -8,13 +10,13 @@ var {authenticate} = require('./../middleware/authenticate');
 // USER_OPERATIONS
 router.post('/signup', (req, res) => {
     var body = _.pick(req.body, ['email', 'password']);
-    var email = body.email;
 
     var user = new User(body);
 
     user.save().then(() => {
         return user.generateAuthToken();
     }).then((token) => {
+        res.cookie('token', token);
         res.header('x-auth', token).send({
             "ok": 1,
             user
@@ -25,7 +27,10 @@ router.post('/signup', (req, res) => {
             e
         });
     })
+});
 
+router.post('/avatar', upload.single('userImage'), (req, res) => {
+    console.log(req.file);
 });
 
 router.get('/me', authenticate, (req, res) => {
@@ -38,6 +43,7 @@ router.post('/login', (req, res) => {
 
     User.findByCredentials(body.email, body.password).then((user) => {
         return user.generateAuthToken().then((token) => {
+            res.cookie('token', token);
             res.header('x-auth', token).send(user);
         });
     }).catch((e) => {

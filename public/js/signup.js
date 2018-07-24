@@ -21,7 +21,7 @@ $(document).ready(function() {
          if(password.length < confirmPassword.length || !password.startsWith(confirmPassword)) {
              icon.removeClass().addClass("fas fa-times-circle");
              icon.css("display", "block");
-         } else if (password === confirmPassword){
+         } else if (password.length >= 6 && password === confirmPassword){
              icon.removeClass().addClass("fas fa-check-circle");
              icon.css("display", "block");
          } else {
@@ -47,8 +47,7 @@ $(document).ready(function() {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(response, textStatus, request) {
-                    let token = request.getResponseHeader('x-auth');
-                    localStorage.setItem("token", token);
+                    console.log("success")
                 },
                 error: function(errorMsg) {
                     console.log("error!!!");

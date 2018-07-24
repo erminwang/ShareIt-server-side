@@ -3,7 +3,7 @@ const {User} = require('./../models/user');
 
 // simply check if the user is logged in
 var isloggedin = (req, res, next) => {
-    var token = req.header('x-auth');
+    var token = req.cookies.token;
     req.isloggedin = false;
 
     if(token) {
@@ -23,9 +23,6 @@ var isloggedin = (req, res, next) => {
      } else {
         return next();
     }
-
-
-
 };
 
 module.exports = {isloggedin};

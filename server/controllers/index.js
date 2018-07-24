@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
 
 router.get('/signup', isloggedin, (req, res) => {
     if(req.isloggedin) {
-        res.redirect('/users/me');
+        res.redirect('/me');
     } else {
         res.status(200).render('signup');
     }
@@ -21,6 +21,14 @@ router.get('/about', (req, res) => {
     res.send({
         status: "ok"
     });
+});
+
+router.get('/me', isloggedin, (req, res) => {
+    if(req.isloggedin) {
+        res.status(200).render('profile');
+    } else {
+        res.redirect('/');
+    }
 });
 
 module.exports = router;
