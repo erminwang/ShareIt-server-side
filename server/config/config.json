@@ -1,0 +1,12 @@
+{
+  "test": {
+    "PORT": 8000,
+    "MONGODB_URI": "mongodb://ermin:ermin1@ds048537.mlab.com:48537/asd3",
+    "JWT_SECRET": "e3R0m1I2n5W7a7N4g1v"
+  },
+  "development" : {
+    "PORT": 8000,
+    "MONGODB_URI": "mongodb://ermin:ermin1@ds048537.mlab.com:48537/asd3",
+    "JWT_SECRET": "e3R0m1I2n5W7a7N4g1"
+  }
+}

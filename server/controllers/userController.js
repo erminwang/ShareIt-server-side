@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const _ = require('lodash');
-const multer = require('multer');
-const upload = multer({des: 'uploads/'});
+// const multer = require('multer');
+// const upload = multer({des: 'uploads/'});
 
 var {mongoose} = require('./../db/mongoose');
 var {User} = require('./../models/user');
@@ -29,9 +29,9 @@ router.post('/signup', (req, res) => {
     })
 });
 
-router.post('/avatar', upload.single('userImage'), (req, res) => {
-    console.log(req.file);
-});
+// router.post('/avatar', upload.single('userImage'), (req, res) => {
+//     console.log(req.file);
+// });
 
 router.get('/me', authenticate, (req, res) => {
     console.log("getting user");

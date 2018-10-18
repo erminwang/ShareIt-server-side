@@ -4,6 +4,7 @@ var {isloggedin} = require('./../middleware/isloggedin');
 
 router.use('/api/todos', require('./todoController'));
 router.use('/api/users', require('./userController'));
+router.use('/api/media', require('./mediaController'));
 
 router.get('/', function(req, res) {
     res.status(200).render('index');
