@@ -45,6 +45,7 @@ var newsShema = new Schema({
     topGeneralNews: [singleNewsSchema],
     topTechNews: [singleNewsSchema],
     topBusNews: [singleNewsSchema],
+    topGamingNews: [singleNewsSchema],
     topSportNews: [singleNewsSchema],
     topEntertainmentNews: [singleNewsSchema],
     topScienceNews: [singleNewsSchema],

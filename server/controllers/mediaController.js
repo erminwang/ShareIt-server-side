@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const _ = require('lodash');
 const {ObjectID} = require('mongodb');
-const axios = require('axios');
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('163856c44aa64be5af7b7b54f0f15ada');
 
@@ -25,28 +24,32 @@ const newsTypes = {
         country: 'ca'
     },
     topGeneralNews: {
-        language: 'en',
-        category: 'general'
+        sources: 'abc-news,al-jazeera-english,associated-press,axios,bbc-news,breitbart-news,cbc-news,cbs-news,cnn,fox-news,independent,metro,msnbc,national-review,nbc-news,news24,reuters,time',
+        language: 'en'
     },
     topTechNews: {
-        language: 'en',
-        category: 'technology'
+        sources: 'ars-technica,crypto-coins-news,engadget,hacker-news,recode,techcrunch,techcrunch-cn,techradar,the-next-web,the-verge,wired',
+        language: 'en'
     },
     topBusNews: {
-        language: 'en',
-        category: 'business'
+        sources: 'bloomberg,business-insider,cnbc,financial-times,fortune,the-economist,the-wall-street-journal',
+        language: 'en'
+    },
+    topGamingNews: {
+        sources: 'ign,polygon',
+        language: 'en'
     },
     topSportNews: {
-        language: 'en',
-        category: 'sports'
+        sources: 'bbc-sport,espn,fox-sports,four-four-two,nfl-news,nhl-news,talksport,the-sport-bible',
+        language: 'en'
     },
     topEntertainmentNews: {
-        language: 'en',
-        category: 'entertainment'
+        sources: 'buzzfeed,daily-mail,entertainment-weekly,mashable,mtv-news,the-lad-bible',
+        language: 'en'
     },
     topScienceNews: {
-        language: 'en',
-        category: 'science'
+        sources: 'national-geographic,new-scientist,next-big-future',
+        language: 'en'
     },
     trumpNews: {
         q: 'trump',
@@ -108,10 +111,31 @@ router.post('/news', (req, res) => {
                 });
         })
         .catch(e => {
-            console.error("Error getting and saving news");
-
-        })
-
+            console.error("Error getting and saving news " + e);
+            res.status(417).send({status: 0, error: e});
+        });
 });
+
+router.get('/news', (req, res) => {
+    let queryParameter = req.query.s;
+    if(Object.keys(newsTypes).includes(queryParameter)) {
+        News.find({})
+            .then((docs) => {
+                return docs.map((doc) => {
+                    return doc[queryParameter]
+                });
+            })
+            .then((docsArr) => {
+                res.status(200).send({status: 1, articles: docsArr});
+            })
+            .catch(e => {
+                console.error(e);
+                res.status(417).send({status: 0, error: e});
+            });
+    } else {
+        console.log("Invalid query parameter");
+        res.status(404).send({status: 0, error: "Invalid query parameter"});
+    }
+})
 
 module.exports = router;
